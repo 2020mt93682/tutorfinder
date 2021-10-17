@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-# tutorfinder
-
-hellp
-=======
-<<<<<<< HEAD
 # TutorFinderApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.10.
@@ -33,5 +27,4 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 =======
 # tutorfinder
->>>>>>> 9a2ee91616d691efaae3f7b8d9adc5816895e71f
->>>>>>> b83797e960e79dadc39c91998b4c1be5d80890d3
+
