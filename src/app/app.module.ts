@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 //import { UsersComponent } from './user-registration/users/users.component';
 //import { ReactiveFormsModule } from '@angular/forms';
 //import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { UsersModule } from './users/users.module';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -23,7 +22,6 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    UsersModule,
     HttpClientModule
   ],
   providers: [],
