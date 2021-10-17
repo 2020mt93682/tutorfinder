@@ -17,6 +17,16 @@ app.post('/api/user', (req, res) => {
   res.json("user addedd");
 });
 
+// users/authenticate
+
+
+app.post('/api/authenticate', (req, res) => {
+  const user = req.body.user;
+ // console.log("user" , user)
+ // users.push(user);
+  res.json("user login");
+});
+
 app.get('/', (req,res) => {
     res.send('App Works !!!!');
 });

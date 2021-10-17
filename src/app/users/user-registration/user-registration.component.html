@@ -1,0 +1,7 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" novalidate>
+    <input formControlName="firstName" placeholder="Your name">
+    <input formControlName="email" placeholder="Your email">
+    <input formControlName="phoneNumber" placeholder="Your message">
+  
+    <button type="submit">Register</button>
+  </form>
