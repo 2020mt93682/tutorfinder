@@ -3,6 +3,10 @@ const app = express(),
       bodyParser = require("body-parser");
       port = 3080;
 
+const cors = require('cors');
+
+app.use(cors());
+
 const users = [];
 
 app.use(bodyParser.json());
@@ -12,9 +16,10 @@ app.get('/api/users', (req, res) => {
 });
 
 app.post('/api/user', (req, res) => {
-  const user = req.body.user;
-  users.push(user);
-  res.json("user addedd");
+  const user = req.body;
+  // users.push(user);
+    console.log("req" , user);
+    res.json("user login");
 });
 
 // users/authenticate

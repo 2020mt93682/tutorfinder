@@ -10,7 +10,7 @@ export class LoginComponent implements OnInit {
    // loginForm: FormGroup | undefined;
     loading = false;
     submitted = false;
-    returnUrl: string | undefined;
+    returnUrl: string = '/home';
     error = '';
 
     constructor(
@@ -21,9 +21,9 @@ export class LoginComponent implements OnInit {
         private reactiveFormsModule: ReactiveFormsModule
     ) { 
         // redirect to home if already logged in
-        // if (this.authenticationService.currentUserValue) { 
-        //     this.router.navigate(['/']);
-        // }
+        if (this.authenticationService.currentUserValue) { 
+            this.router.navigate(['/']);
+        }
     }
 
     loginForm = this.formBuilder.group({
@@ -39,7 +39,10 @@ export class LoginComponent implements OnInit {
         // });
 
         // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+
+
+        console.log("return Url" , this.returnUrl);
     }
 
     // convenience getter for easy access to form fields
@@ -58,7 +61,9 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
+                    console.log("daat" , this.returnUrl);
                     this.router.navigate([this.returnUrl]);
+                    this.loading = false;
                 },
                 error => {
                     this.error = error;
