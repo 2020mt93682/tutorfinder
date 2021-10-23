@@ -36,6 +36,13 @@ app.get('/', (req,res) => {
     res.send('App Works !!!!');
 });
 
+app.post('/api/addUser', (req, res) => {
+  const user = req.body;
+  // users.push(user);
+    console.log("req" , user);
+    res.json("user added");
+});
+
 app.listen(port, () => {
     console.log(`Server listening on the port::${port}`);
 });

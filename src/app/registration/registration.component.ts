@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray } from "@angular/forms";
+import { FormBuilder, FormArray, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from '@angular/router';
+import { RegistrationService } from './registration.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-registration',
@@ -20,7 +22,7 @@ export class RegistrationComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    // private authenticationService: AuthenticationService,
+    private registrationService: RegistrationService,
     //private reactiveFormsModule: ReactiveFormsModule
   ) {
     // redirect to home if already logged in
@@ -40,38 +42,66 @@ export class RegistrationComponent implements OnInit {
     //   firstName: [''],
     //   lastName: ['']
     // }),
-    firstName: [''],
-    lastName: [''],
-    email: [''],
-    phoneNumber: [''],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    email: ['', Validators.required],
+    phoneNumber: ['', Validators.required],
     // address: this.fb.group({
-    addressLine1: [''],
+    addressLine1: ['', Validators.required],
     addressLine2: [''],
-    city: [''],
-    state: [''],
-    zipcode: [''],
+    city: ['', Validators.required],
+    state: ['', Validators.required],
+    zipcode: ['', Validators.required],
     // }),
-    role: [''],
+    role: ['', Validators.required],
     addDynamicElement: this.fb.array([])
   })
 
   get f() { return this.registrationForm.controls; }
 
   // Submit Registration Form
-  onSubmit() {
-    this.submitted = true;
-    this.loading = true;
-    console.log("role", this.roleList);
+  onSubmit(){
+    
+  //   this.loading = true;
 
-    this.router.navigate([this.returnUrl]);
-    this.loading = false;
-    // this.submitted = true;
-    // if(!this.registrationForm.valid) {
-    //   alert('Please fill all the required fields to create a super hero!')
-    //   return false;
-    // } else {
-    console.log("form values", this.registrationForm.value)
-    // }
+  //   this.registrationService.addUser
+  //   if(!this.registrationForm.valid) {
+  //     alert('Please fill all the required fields to create a super hero!')
+  //     return false;
+  //   } else {
+
+  //     this.submitted = true;
+  //     this.router.navigate([this.returnUrl]);
+  //   console.log("form values", this.registrationForm.value);
+  //   return true;
+  //   }
+
+
+
+  this.submitted = true;
+
+  // stop here if form is invalid
+  if (this.registrationForm && this.registrationForm.invalid) {
+      return;
   }
 
+  this.loading = true;
+
+  console.log("form values", this.registrationForm.value);
+
+  this.registrationService.addUser(this.registrationForm.value)
+      .pipe(first())
+      .subscribe(
+          data => {
+              console.log("daat", this.returnUrl);
+              this.router.navigate([this.returnUrl]);
+              this.loading = false;
+          },
+          error => {
+              this.error = error;
+              this.loading = false;
+          });
 }
+
+   }
+

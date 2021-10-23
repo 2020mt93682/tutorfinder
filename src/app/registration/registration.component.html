@@ -4,28 +4,28 @@
         <div class="card-body">
             <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <label for="firstName">First Name</label>
+                    <label for="firstName">First Name<span class="required-asterisk">*</span></label>
                     <input type="text" formControlName="firstName" class="form-control" />
-                    <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                        <div *ngIf="f.username.errors.required">Username is required</div>
-                    </div> -->
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="lastName">Last Name</label>
+                    <label for="lastName">Last Name<span class="required-asterisk">*</span></label>
                     <input type="text" formControlName="lastName" class="form-control" />
-                    <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                        <div *ngIf="f.username.errors.required">Username is required</div>
-                    </div> -->
+                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                        <div *ngIf="f.lastName.errors.required">lastName is required</div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">Email<span class="required-asterisk">*</span></label>
                     <input type="text" formControlName="email" class="form-control" />
                     <!-- <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
                         <div *ngIf="f.phone.errors.required">Phone number is required</div>
                     </div> -->
                 </div>
                 <div class="form-group">
-                    <label for="phoneNumber">phoneNumber</label>
+                    <label for="phoneNumber">phoneNumber<span class="required-asterisk">*</span></label>
                     <input type="text" formControlName="phoneNumber" class="form-control" />
                     <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                         <div *ngIf="f.password.errors.required">Password is required</div>
@@ -46,28 +46,28 @@
                     </div> -->
                 </div>
                 <div class="form-group">
-                    <label for="city">City</label>
+                    <label for="city">City<span class="required-asterisk">*</span></label>
                     <input type="text" formControlName="city" class="form-control" />
                     <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                         <div *ngIf="f.password.errors.required">Password is required</div>
                     </div> -->
                 </div>
                 <div class="form-group">
-                    <label for="State">State</label>
+                    <label for="State">State<span class="required-asterisk">*</span></label>
                     <input type="text" formControlName="state" class="form-control" />
                     <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                         <div *ngIf="f.password.errors.required">Password is required</div>
                     </div> -->
                 </div>
                 <div class="form-group">
-                    <label for="zipcode">Zip COde</label>
+                    <label for="zipcode">Zip COde<span class="required-asterisk">*</span></label>
                     <input type="text" formControlName="zipcode" class="form-control" />
                     <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                         <div *ngIf="f.password.errors.required">Password is required</div>
                     </div> -->
                 </div>
                 <div class="form-group">
-                    <label for="role">Role</label>
+                    <label for="role">Role<span class="required-asterisk">*</span></label>
                     <select formControlName="role" class="form-control">
                         <!-- <option disabled>Select Role</option>   -->
                         <option>Choose role</option>
