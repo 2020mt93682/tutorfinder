@@ -7,7 +7,7 @@ import { AuthenticationService } from './login.service';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
-   // loginForm: FormGroup | undefined;
+    // loginForm: FormGroup | undefined;
     loading = false;
     submitted = false;
     returnUrl: string = '/home';
@@ -19,18 +19,19 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private authenticationService: AuthenticationService,
         private reactiveFormsModule: ReactiveFormsModule
-    ) { 
+    ) {
         // redirect to home if already logged in
-        if (this.authenticationService.currentUserValue) { 
+        if (this.authenticationService.currentUserValue) {
             this.router.navigate(['/']);
         }
     }
 
     loginForm = this.formBuilder.group({
         username: ['', Validators.required],
-        password: ['', Validators.required]
+        password: ['', Validators.required],
+        phone: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(10)])]
     });
-    
+
 
     ngOnInit() {
         // this.loginForm = this.formBuilder.group({
@@ -42,7 +43,7 @@ export class LoginComponent implements OnInit {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
 
 
-        console.log("return Url" , this.returnUrl);
+        console.log("return Url", this.returnUrl);
     }
 
     // convenience getter for easy access to form fields
@@ -57,11 +58,11 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        this.authenticationService.login(this.f.username.value, this.f.password.value)
+        this.authenticationService.login(this.f.username.value, this.f.password.value, this.f.phone.value)
             .pipe(first())
             .subscribe(
                 data => {
-                    console.log("daat" , this.returnUrl);
+                    console.log("daat", this.returnUrl);
                     this.router.navigate([this.returnUrl]);
                     this.loading = false;
                 },
@@ -69,5 +70,9 @@ export class LoginComponent implements OnInit {
                     this.error = error;
                     this.loading = false;
                 });
+    }
+
+    onSignup() {
+        this.router.navigate(['/registration']);
     }
 }

@@ -10,22 +10,22 @@ import { User } from '../models/user.model';
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User> | undefined;
-    public value=  '{"currentUser":"test"}';
+    public value = '{"currentUser":"test"}';
 
     constructor(private http: HttpClient) {
-       this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.value));
-       this.currentUser = this.currentUserSubject.asObservable();
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(this.value));
+        this.currentUser = this.currentUserSubject.asObservable();
     }
 
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
 
-    login(username: string, password: string) {
-        const body = { username: username , password :  password};
+    login(username: string, password: string, phone: string) {
+        const body = { username: username, password: password, phone: phone };
         return this.http.post<any>(`${environment.apiUrl}/api/user`, body)
             .pipe(map(user => {
-                console.log("user service" , user);
+                console.log("user service", user);
                 // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
                 // user.authdata = window.btoa(username + ':' + password);
                 // localStorage.setItem('currentUser', JSON.stringify(user));
@@ -37,6 +37,6 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
-      //  this.currentUserSubject.next(null);
+        //  this.currentUserSubject.next(null);
     }
 }
