@@ -1,5 +1,5 @@
 
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 /* export const connection = mysql.createConnection({
   host: 'https://remotemysql.com/',

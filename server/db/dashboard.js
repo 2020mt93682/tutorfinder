@@ -20,7 +20,7 @@
 } */
 var mysqlConn = require("./mysql-conn");
 module.exports = {
-  getGrades: async function () {
+  /* getGrades: async function () {
     try{
       await mysqlConn.connection.query(
           'select * from grade',
@@ -33,16 +33,16 @@ module.exports = {
   }
   catch(err){
   }
-  }
-  /* getGrades: async function () {
+  } */
+  getGrades: async function () {
     try{
-      return await mysqlConn.connection.
-      then(
-        conn=> mysqlConn.connection.query(
-          'select * from grade')).
-          then();
+      return await mysqlConn.connection()
+      .then(
+        conn=> conn.query(
+          'select grade from grade'))
+          .then(([rows, fields]) => console.log("RESULTS:" + rows[0].grade));
   }
   catch(err){
   }
-  } */
+  }
 };
