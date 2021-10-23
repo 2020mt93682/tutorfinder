@@ -21,8 +21,8 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(username: string, password: string, phone: string) {
-        const body = { username: username, password: password, phone: phone };
+    login(password: string, phone: string) {
+        const body = { password: password, phone: phone };
         return this.http.post<any>(`${environment.apiUrl}/api/user`, body)
             .pipe(map(user => {
                 console.log("user service", user);

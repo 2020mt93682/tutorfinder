@@ -5,6 +5,7 @@ const app = express(),
 
 const cors = require('cors');
 
+
 app.use(cors());
 
 const users = [];
@@ -34,6 +35,10 @@ app.post('/api/authenticate', (req, res) => {
 
 app.get('/', (req,res) => {
     res.send('App Works !!!!');
+});
+
+app.get('/getGrades', (req,res) => {
+  res.json("user login");
 });
 
 app.post('/api/addUser', (req, res) => {

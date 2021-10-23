@@ -17,6 +17,9 @@ export class RegistrationComponent implements OnInit {
   returnUrl: string = '/login';
   error = '';
 
+  hideSubjects = true;
+  gradeSubjectList: any = [];
+
 
   constructor(
     private fb: FormBuilder,
@@ -34,7 +37,8 @@ export class RegistrationComponent implements OnInit {
   }
 
   roleList: any = [{ id: 1, name: 'student' }, { id: 2, name: 'facilitator' }];
-
+  gradeList: any = [{ id: 1, name: 'grade1' }, { id: 2, name: 'grade2' } , { id: 3, name: 'grade3' }];
+  subjectList: any =  [{ id: 1, name: 'matchs' }, { id: 2, name: 'scince' }];
 
   registrationForm = this.fb.group({
 
@@ -44,20 +48,41 @@ export class RegistrationComponent implements OnInit {
     // }),
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    email: ['', Validators.required],
+    email: [''],
     phoneNumber: ['', Validators.required],
+    password: ['', Validators.required],
     // address: this.fb.group({
-    addressLine1: ['', Validators.required],
+    addressLine1: [''],
     addressLine2: [''],
     city: ['', Validators.required],
-    state: ['', Validators.required],
-    zipcode: ['', Validators.required],
+    state: [''],
+    zipcode: [''],
     // }),
     role: ['', Validators.required],
+    gradeSubjects: ['', Validators.required],
     addDynamicElement: this.fb.array([])
   })
 
   get f() { return this.registrationForm.controls; }
+
+
+  selectedGrade: string = '';
+
+  //event handler for the select element's change event
+  selectGrade(event: any) {
+    //update the ui
+    this.selectedGrade = event.target.value;
+    this.hideSubjects = false;
+  }
+
+   //event handler for the select element's change event
+   selectSubject(event: any, grade: string) {
+    //update the ui
+    this.selectedGrade = event.target.value + '-' + grade;
+    this.gradeSubjectList.push(this.selectedGrade);
+
+    this.hideSubjects = false;
+  }
 
   // Submit Registration Form
   onSubmit(){

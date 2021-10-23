@@ -25,6 +25,16 @@ export class RegistrationService {
         }));
 }
 
+
+getGrades() {
+
+
+  return this.http.get<any>(`${environment.apiUrl}/api/getGrades`)
+      .pipe(map(grades => {
+
+          return grades;
+      }));
+}
 mapUserData(userInfo: any) {
   let userPayload: userInfo;
   console.log("request mapp" , userInfo);
