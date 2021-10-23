@@ -5,6 +5,9 @@ const app = express(),
 
 const cors = require('cors');
 
+const dashboardLocal = require('./db/dashboard');
+console.log(typeof dashboardLocal.getGrades); // => 'function'
+
 app.use(cors());
 
 const users = [];
@@ -49,14 +52,24 @@ app.listen(port, () => {
 
 app.get('/api/get-grade', (req, res) => {
     try {
-      const grade = connection.query(
+      console.log("I AM HERE");
+      /* const grade = connection.query(
         'select * from grade',
         function (err, results, fields) {
           console.log(results);
           console.log(fields);
         }
-      );
-      console.log("Grade -> " + grade);
+      ); */
+      //const getGrade = require('getGrades');
+      console.log(typeof dashboardLocal.getGrades);
+      const grade = dashboardLocal.getGrades().then((result) => {
+        console.log("RESULT QUERY: " + result);
+      });
+      //const grade = getGrade();
+      //console.log("Grade -> " + grade);
+      //console.log("Grade -> " + grade[0]);
+      //console.log(typeof grade[0].grade);
+      //console.log("Grade -> " + grade);
     }
     catch (err) {
 
