@@ -1,7 +1,7 @@
 
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+export const connection = mysql.createConnection({
   host: 'https://remotemysql.com/',
   user: 'svQtxIxilZ',
   database: 'svQtxIxilZ',

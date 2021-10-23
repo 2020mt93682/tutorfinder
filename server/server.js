@@ -46,3 +46,20 @@ app.post('/api/addUser', (req, res) => {
 app.listen(port, () => {
     console.log(`Server listening on the port::${port}`);
 });
+
+app.get('/api/get-grade', (req, res) => {
+    try {
+      const grade = connection.query(
+        'select * from grade',
+        function (err, results, fields) {
+          console.log(results);
+          console.log(fields);
+        }
+      );
+      console.log("Grade -> " + grade);
+    }
+    catch (err) {
+
+    }
+    res.json("get grade");
+  });
