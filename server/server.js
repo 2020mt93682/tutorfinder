@@ -5,6 +5,8 @@ const app = express(),
 
 const cors = require('cors');
 
+const mysql = require('mysql2/promise'); // or require('mysql2').createConnectionPromise
+
 app.use(cors());
 
 const users = [];
@@ -46,3 +48,25 @@ app.post('/api/addUser', (req, res) => {
 app.listen(port, () => {
     console.log(`Server listening on the port::${port}`);
 });
+
+app.get('/api/get-grade', (req, res) => {
+    try {
+      mysql.createConnection({
+        host: 'remotemysql.com',
+        port: 3306,
+        user: 'svQtxIxilZ',
+        database: 'svQtxIxilZ',
+        password : 'Z5uzX9DkGm',
+      })
+      .then(conn => conn.query('select * from grade'))
+      .then(([rows, fields]) => {
+      console.log(rows);
+      res.json(rows);
+      });
+    }
+    catch (err) {
+      console.log("ERROR");
+      res.json(err);
+    }
+    //res.json("get grade");
+  });
