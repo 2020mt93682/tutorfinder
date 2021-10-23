@@ -29,7 +29,7 @@ export class RegistrationService {
 getGrades() {
 
 
-  return this.http.get<any>(`${environment.apiUrl}/api/getGrades`)
+  return this.http.get<any>(`${environment.apiUrl}/api/get-grade`)
       .pipe(map(grades => {
 
           return grades;

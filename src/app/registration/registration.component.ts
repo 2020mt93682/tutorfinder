@@ -34,11 +34,23 @@ export class RegistrationComponent implements OnInit {
     // }
   }
   ngOnInit(): void {
+
+    this.registrationService.getGrades()
+    .pipe(first())
+    .subscribe(
+        data => {
+          this.gradeList = data;
+            console.log("get grades", data);
+
+        },
+        error => {
+            this.error = error;
+        });
   }
 
   roleList: any = [{ id: 1, name: 'student' }, { id: 2, name: 'facilitator' }];
   gradeList: any = [{ id: 1, name: 'grade1' }, { id: 2, name: 'grade2' } , { id: 3, name: 'grade3' }];
-  subjectList: any =  [{ id: 1, name: 'matchs' }, { id: 2, name: 'scince' }];
+  subjectList: any =  [{ id: 1, name: 'matchs' }, { id: 2, name: 'science' }];
 
   registrationForm = this.fb.group({
 
@@ -59,7 +71,7 @@ export class RegistrationComponent implements OnInit {
     zipcode: [''],
     // }),
     role: ['', Validators.required],
-    gradeSubjects: ['', Validators.required],
+    gradeSubjects: [this.gradeSubjectList, Validators.required],
     addDynamicElement: this.fb.array([])
   })
 
@@ -104,7 +116,7 @@ export class RegistrationComponent implements OnInit {
 
 
   this.submitted = true;
-
+  console.log("form values", this.registrationForm.value);
   // stop here if form is invalid
   if (this.registrationForm && this.registrationForm.invalid) {
       return;
@@ -112,7 +124,7 @@ export class RegistrationComponent implements OnInit {
 
   this.loading = true;
 
-  console.log("form values", this.registrationForm.value);
+
 
   this.registrationService.addUser(this.registrationForm.value)
       .pipe(first())
