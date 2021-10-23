@@ -4,6 +4,20 @@
         <div class="card-body">
             <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number<span class="required-asterisk">*</span></label>
+                        <input type="text" formControlName="phoneNumber" class="form-control" />
+                        <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                        </div> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password<span class="required-asterisk">*</span></label>
+                        <input type="password" formControlName="password" class="form-control" />
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                        </div>
+                    </div>
                     <label for="firstName">First Name<span class="required-asterisk">*</span></label>
                     <input type="text" formControlName="firstName" class="form-control" />
                     <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
@@ -18,19 +32,44 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email<span class="required-asterisk">*</span></label>
+                    <label for="role">Role<span class="required-asterisk">*</span></label>
+                    <select formControlName="role" class="form-control">
+                        <!-- <option disabled>Select Role</option>   -->
+                        <option>Choose role</option>
+                        <option *ngFor="let role of roleList">{{role.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <div class="col-6">
+                        <label for="role">Grades <span class="required-asterisk">*</span></label>
+                        <select class="form-control" (change)="selectGrade($event)">
+                            <option>Choose Grades</option>
+                            <option *ngFor="let grade of gradeList">{{grade.description}}</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="role">Subjects <span class="required-asterisk">*</span></label>
+                        <select class="form-control" [disabled]=hideSubjects
+                            (change)="selectSubject($event, selectedGrade)">
+                            <option>Choose Subjects</option>
+                            <option *ngFor="let subject of subjectList">{{subject.name}}</option>
+                        </select>
+                    </div>
+                    <div class="row" *ngIf="!hideSubjects">
+                        <ul class="">
+                            <li *ngFor="let gs of gradeSubjectList"> <span class="badge">{{gs}}</span>
+                                </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
                     <input type="text" formControlName="email" class="form-control" />
                     <!-- <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
                         <div *ngIf="f.phone.errors.required">Phone number is required</div>
                     </div> -->
                 </div>
-                <div class="form-group">
-                    <label for="phoneNumber">phoneNumber<span class="required-asterisk">*</span></label>
-                    <input type="text" formControlName="phoneNumber" class="form-control" />
-                    <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                        <div *ngIf="f.password.errors.required">Password is required</div>
-                    </div> -->
-                </div>
+
                 <div class="form-group">
                     <label for="addressLine1">Address Line 1</label>
                     <input type="text" formControlName="addressLine1" class="form-control" />
@@ -53,27 +92,20 @@
                     </div> -->
                 </div>
                 <div class="form-group">
-                    <label for="State">State<span class="required-asterisk">*</span></label>
+                    <label for="State">State</label>
                     <input type="text" formControlName="state" class="form-control" />
                     <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                         <div *ngIf="f.password.errors.required">Password is required</div>
                     </div> -->
                 </div>
                 <div class="form-group">
-                    <label for="zipcode">Zip COde<span class="required-asterisk">*</span></label>
+                    <label for="zipcode">Zip Code</label>
                     <input type="text" formControlName="zipcode" class="form-control" />
                     <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                         <div *ngIf="f.password.errors.required">Password is required</div>
                     </div> -->
                 </div>
-                <div class="form-group">
-                    <label for="role">Role<span class="required-asterisk">*</span></label>
-                    <select formControlName="role" class="form-control">
-                        <!-- <option disabled>Select Role</option>   -->
-                        <option>Choose role</option>
-                        <option *ngFor="let role of roleList">{{role.name}}</option>
-                    </select>
-                </div>
+
                 <button [disabled]="loading" class="btn btn-primary">
                     <!-- <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span> -->
                     Register

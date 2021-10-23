@@ -24,6 +24,10 @@ app.post('/api/user', (req, res) => {
   res.json("user login");
 });
 
+app.get('/getGrades', (req,res) => {
+  res.json("user login");
+});
+
 // users/authenticate
 
 
@@ -36,6 +40,10 @@ app.post('/api/authenticate', (req, res) => {
 
 app.get('/', (req, res) => {
   res.send('App Works !!!!');
+});
+
+app.get('/getGrades', (req,res) => {
+  res.json("user login");
 });
 
 app.post('/api/addUser', (req, res) => {

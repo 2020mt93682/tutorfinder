@@ -17,6 +17,9 @@ export class RegistrationComponent implements OnInit {
   returnUrl: string = '/login';
   error = '';
 
+  hideSubjects = true;
+  gradeSubjectList: any = [];
+
 
   constructor(
     private fb: FormBuilder,
@@ -31,10 +34,23 @@ export class RegistrationComponent implements OnInit {
     // }
   }
   ngOnInit(): void {
+
+    this.registrationService.getGrades()
+    .pipe(first())
+    .subscribe(
+        data => {
+          this.gradeList = data;
+            console.log("get grades", data);
+
+        },
+        error => {
+            this.error = error;
+        });
   }
 
   roleList: any = [{ id: 1, name: 'student' }, { id: 2, name: 'facilitator' }];
-
+  gradeList: any = [{ id: 1, name: 'grade1' }, { id: 2, name: 'grade2' } , { id: 3, name: 'grade3' }];
+  subjectList: any =  [{ id: 1, name: 'matchs' }, { id: 2, name: 'science' }];
 
   registrationForm = this.fb.group({
 
@@ -44,20 +60,41 @@ export class RegistrationComponent implements OnInit {
     // }),
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    email: ['', Validators.required],
+    email: [''],
     phoneNumber: ['', Validators.required],
+    password: ['', Validators.required],
     // address: this.fb.group({
-    addressLine1: ['', Validators.required],
+    addressLine1: [''],
     addressLine2: [''],
     city: ['', Validators.required],
-    state: ['', Validators.required],
-    zipcode: ['', Validators.required],
+    state: [''],
+    zipcode: [''],
     // }),
     role: ['', Validators.required],
+    gradeSubjects: [this.gradeSubjectList, Validators.required],
     addDynamicElement: this.fb.array([])
   })
 
   get f() { return this.registrationForm.controls; }
+
+
+  selectedGrade: string = '';
+
+  //event handler for the select element's change event
+  selectGrade(event: any) {
+    //update the ui
+    this.selectedGrade = event.target.value;
+    this.hideSubjects = false;
+  }
+
+   //event handler for the select element's change event
+   selectSubject(event: any, grade: string) {
+    //update the ui
+    this.selectedGrade = event.target.value + '-' + grade;
+    this.gradeSubjectList.push(this.selectedGrade);
+
+    this.hideSubjects = false;
+  }
 
   // Submit Registration Form
   onSubmit(){
@@ -79,7 +116,7 @@ export class RegistrationComponent implements OnInit {
 
 
   this.submitted = true;
-
+  console.log("form values", this.registrationForm.value);
   // stop here if form is invalid
   if (this.registrationForm && this.registrationForm.invalid) {
       return;
@@ -87,7 +124,7 @@ export class RegistrationComponent implements OnInit {
 
   this.loading = true;
 
-  console.log("form values", this.registrationForm.value);
+
 
   this.registrationService.addUser(this.registrationForm.value)
       .pipe(first())

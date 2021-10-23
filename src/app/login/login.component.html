@@ -4,13 +4,6 @@
     <div class="card-body">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <label for="username">Username<span class="required-asterisk">*</span></label>
-          <input type="text" formControlName="username" class="form-control" />
-          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-            <div *ngIf="f.username.errors.required">Username is required</div>
-          </div>
-        </div>
-        <div class="form-group">
           <label for="username">Phone Number<span class="required-asterisk">*</span></label>
           <input type="text" formControlName="phone" class="form-control" />
           <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
@@ -30,7 +23,7 @@
         </button>
         &nbsp;&nbsp;
         <button class="btn btn-secondary" (click)="onSignup()">
-          Singup
+          Sign Up
         </button>
         <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
       </form>
