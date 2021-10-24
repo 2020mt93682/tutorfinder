@@ -46,7 +46,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let searchResult of searchResults">
-        <td>{{ searchResult.first_name }}</td>
+        <td><a [routerLink]="['/schedule']" [queryParams]="{id: searchResult.user_id , grade: searchResult.grade , subject: searchResult.subject_name}" fragment="education">{{ searchResult.first_name }}</a></td>
         <td>{{ searchResult.last_name }}</td>
         <td>{{ searchResult.grade }}</td>
         <td>{{ searchResult.subject_name }}</td>

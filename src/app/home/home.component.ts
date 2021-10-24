@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
   onSubmit(){
   this.submitted = true;
   this.loading = true;
-  //debugger;
+ 
   //console.log("form values", this.dashboardFormData.value);
   this.selectedGrade;
   this.selectedSubject;
@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit {
   .pipe(first())
   .subscribe(
       data => {
-        debugger;
+       
         this.searchResults = data;
          // console.log("search", this.returnUrl);
        //   this.router.navigate([this.returnUrl]);

@@ -28,7 +28,7 @@ export class DashboardDataService {
 getGrades() {
   return this.http.get<any>(`${environment.apiUrl}/api/get-grade`)
       .pipe(map(grades => {
-          //debugger;
+         
           return grades;
       }));
 }
@@ -36,7 +36,7 @@ getGrades() {
 getSubjects() {
   return this.http.get<any>(`${environment.apiUrl}/api/get-subject`)
       .pipe(map(subjects => {
-          //debugger;
+         
           return subjects;
       }));
 }
@@ -48,7 +48,20 @@ getTutors(grade: any, subject: any, city: any){
   console.log("search" ,subject );
   return this.http.get<any>(`${environment.apiUrl}/api/get-tutor?city=${city}&grade=${grade}&subject_name=${subject}`)
   .pipe(map(items => {
-      //debugger;
+     
+      return items;
+  }));
+}
+
+
+
+///api/get-tutor
+getSchedule(user_id: any, grade: any, subject: any){
+ 
+
+  return this.http.get<any>(`${environment.apiUrl}/api/get-schedules?tutor_user_id=${user_id}&tutor_grade=${grade}&tutor_subject_name=${subject}`)
+  .pipe(map(items => {
+     
       return items;
   }));
 }

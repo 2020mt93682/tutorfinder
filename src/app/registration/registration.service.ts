@@ -15,7 +15,7 @@ export class RegistrationService {
   constructor(private http: HttpClient) { }
 
   addUser(formData: any) {
-    debugger;
+   
   const body: userInfo = this.mapUserData(formData);
 
 
