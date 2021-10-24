@@ -1,4 +1,5 @@
-﻿
+﻿import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from "@angular/platform-browser-dynamic";
+
 export class User {
     id: number | undefined;
     username: string | undefined;
@@ -9,9 +10,10 @@ export class User {
 }
 
 export interface userInfo {
-    fname: string,
-      lname: string,
-      phone: string,
+    firstName: string,
+    password: string,
+    lastName: string,
+    phoneNumber: string,
       email: string,
       addressLine1: string,
       addressLine2: string,
@@ -19,7 +21,7 @@ export interface userInfo {
       city: string,
       state: string,
       zipcode: string,
-      gradeSubjects: gradeSubject
+      gradeSubjects: gradeSubject[]
 }
 
 export interface gradeSubject{

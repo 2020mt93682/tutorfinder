@@ -1,7 +1,7 @@
 <div class="col-md-6 offset-md-3 mt-5">
     <div class="card">
         <h4 class="card-header">Tutor Finder Login page</h4>
-        <div class="card-body">
+        <div class="card-body" *ngIf="loadpage">
             <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <div class="form-group">
@@ -36,7 +36,7 @@
                     <select formControlName="role" class="form-control">
                         <!-- <option disabled>Select Role</option>   -->
                         <option>Choose role</option>
-                        <option *ngFor="let role of roleList">{{role.name}}</option>
+                        <option [ngValue]="role" *ngFor="let role of roleList">{{role.name}}</option>
                     </select>
                 </div>
                 <div class="form-group row">
@@ -44,7 +44,7 @@
                         <label for="role">Grades <span class="required-asterisk">*</span></label>
                         <select class="form-control" (change)="selectGrade($event)">
                             <option>Choose Grades</option>
-                            <option *ngFor="let grade of gradeList">{{grade.description}}</option>
+                            <option [ngValue]="grade" *ngFor="let grade of gradeList">{{grade.description}}</option>
                         </select>
                     </div>
                     <div class="col-6">
@@ -52,12 +52,12 @@
                         <select class="form-control" [disabled]=hideSubjects
                             (change)="selectSubject($event, selectedGrade)">
                             <option>Choose Subjects</option>
-                            <option *ngFor="let subject of subjectList">{{subject.grade}} - {{subject.subject}}</option>
+                            <option *ngFor="let subject of subjectList">{{subject.description}}</option>
                         </select>
                     </div>
                     <div class="row" *ngIf="!hideSubjects">
                         <ul class="">
-                            <li *ngFor="let gs of gradeSubjectList"> <span class="badge">{{gs}}</span>
+                            <li *ngFor="let gs of gradeSubjectList"> <span class="badge">{{gs.grade}} - {{gs.subject}}</span>
                                 </li>
                         </ul>
                     </div>

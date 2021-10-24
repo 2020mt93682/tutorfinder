@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-import { User, userInfo } from '../models/user.model';
+import { gradeSubject, User, userInfo } from '../models/user.model';
 
 
 @Injectable({
@@ -15,10 +15,11 @@ export class RegistrationService {
   constructor(private http: HttpClient) { }
 
   addUser(formData: any) {
-    const body: userInfo = this.mapUserData(formData);
+    debugger;
+  const body: userInfo = this.mapUserData(formData);
 
 
-    return this.http.post<any>(`${environment.apiUrl}/api/insert-user-grade-subjects`, body)
+    return this.http.post<any>(`${environment.apiUrl}/api/insert-user-detail`, body)
       .pipe(map(user => {
 
         return user;
@@ -61,21 +62,28 @@ export class RegistrationService {
 
   mapUserData(userInfo: any) {
     let userPayload: userInfo;
+    let gradeSubject : gradeSubject[] = [];
+
+    userInfo.gradeSubjects.forEach((element: { gradeId: any; subject: any; }) => {
+      gradeSubject.push( {grade : element.gradeId , subject: element.subject})
+    });
     console.log("request mapp", userInfo);
     userPayload = {
-      fname: userInfo.firstName,
-      lname: userInfo.lastName,
-      phone: userInfo.phoneNumber,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      password: userInfo.password,
+      phoneNumber: userInfo.phoneNumber,
       email: userInfo.email,
       addressLine1: userInfo.addressLine1,
       addressLine2: userInfo.addressLine2,
-      role: userInfo.role,
+      role: userInfo.role.role_id,
       city: userInfo.city,
       state: userInfo.state,
       zipcode: userInfo.zipcode,
-      gradeSubjects: userInfo.gradeSubjects
+      gradeSubjects: gradeSubject
     }
 
     return userPayload;
   }
+
 }

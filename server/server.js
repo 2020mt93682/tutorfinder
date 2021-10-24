@@ -141,7 +141,7 @@ app.get('/api/get-tutor', (req, res) => {
   }
 });
 
-app.post("/insert-user-grade-subjects", (req, res) => {
+app.post("/api/insert-user-grade-subjects", (req, res) => {
   console.log(req.body)
   try {
     mysql.createConnection({
@@ -166,7 +166,7 @@ app.post("/insert-user-grade-subjects", (req, res) => {
   }
 });
 
-app.post("/insert-user-detail", (req, res) => {
+app.post("/api/insert-user-detail", (req, res) => {
   console.log(req.body)
   try {
     mysql.createConnection({
@@ -178,7 +178,7 @@ app.post("/insert-user-detail", (req, res) => {
     })  
       .then(conn => conn.query(`insert into user (phone, password, first_name, last_name, email, address_line1, address_line2, city, state, zipcode, role_id)
       VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
-        [req.body.userid, req.body.phone, req.body.password, req.body.first_name, req.body.last_name, req.body.email, req.body.address_line1, req.body.address_line2, req.body.city, req.body.state, req.body.zipcode, req.body.role_id],
+        [req.body.phoneNumber, req.body.password, req.body.firstName, req.body.lastName, req.body.email, req.body.addressLine1, req.body.addressLine2, req.body.city, req.body.state, req.body.zipcode, req.body.role],
         (error, results) => {
           if (error)
             return res.json({ error: error });
