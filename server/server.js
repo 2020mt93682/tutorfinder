@@ -29,14 +29,29 @@ app.get('/getGrades', (req, res) => {
   res.json("user login");
 });
 
-// users/authenticate
-
-
 app.post('/api/authenticate', (req, res) => {
-  const user = req.body.user;
-  // console.log("user" , user)
-  // users.push(user);
-  res.json("user login");
+  try {
+    let user = req.body.user;
+    mysql.createConnection({
+      host: 'remotemysql.com',
+      port: 3306,
+      user: 'svQtxIxilZ',
+      database: 'svQtxIxilZ',
+      password: 'Z5uzX9DkGm',
+    })
+      .then(conn => {
+        conn.query(`select * from user where phone = ${user.phone} and password = ${user.password}`);
+        conn.end();
+      })
+      .then(([rows, fields]) => {
+        console.log(rows);
+        res.json(rows);
+      });
+  }
+  catch (err) {
+    console.log("ERROR");
+    res.json(err);
+  }
 });
 
 app.get('/', (req, res) => {
@@ -132,6 +147,7 @@ app.get('/api/get-subject', (req, res) => {
 
 app.get('/api/get-tutor', (req, res) => {
   try {
+    let tutorDetail = req.body;
     mysql.createConnection({
       host: 'remotemysql.com',
       port: 3306,
@@ -140,7 +156,10 @@ app.get('/api/get-tutor', (req, res) => {
       password: 'Z5uzX9DkGm',
     })
       .then(conn => {
-        conn.query(`select role_id from role where name = 'tutor'`);
+        conn.query(`select u.phone, u.first_name, u.last_name, ugs.grade,ugs.subject_name
+        from user u, user_grade_subject ugs
+           where  u.id = ugs.id and u.role_id= 2 and ugs.grade =${tutorDetail.grade} and ugs.subject_name =${tutorDetail.subject_name} and
+                  u.city = ${tutorDetail.city}`);
         conn.end();
       })
       .then(([rows, fields]) => {
@@ -165,8 +184,8 @@ app.post("/api/insert-user-grade-subjects", (req, res) => {
       password: 'Z5uzX9DkGm',
     })
       .then(conn => {
-        conn.query(`insert into user_grade_subjects (user_id, grade,subject_name,enroll_date) VALUES (?,?,?)`,
-          [req.body.user_id, req.body.grade, req.body.enroll_date],
+        conn.query(`insert into user_grade_subjects (user_id, grade,subject_name,enroll_date) VALUES (?,?,?,?)`,
+          [req.body.user_id, req.body.grade, req.body.subject_name, req.body.enroll_date],
           (error, results) => {
             if (error)
               return res.json({ error: error });
@@ -246,6 +265,62 @@ app.post("/api/insert-user-detail", (req, res) => {
       }
     }
     return true;
+  }
+  catch (err) {
+    console.log("ERROR");
+    res.json(err);
+  }
+});
+
+app.get('/api/get-schedules', (req, res) => {
+  try {
+    let tutorDetail = req.body;
+    mysql.createConnection({
+      host: 'remotemysql.com',
+      port: 3306,
+      user: 'svQtxIxilZ',
+      database: 'svQtxIxilZ',
+      password: 'Z5uzX9DkGm',
+    })
+      .then(conn => {
+        conn.query(`select * from tution_schedule where
+        tutor_user_id = ${tutorDetail.tutor_user_id} and
+        tutor_grade = ${tutorDetail.tutor_grade} and 
+        tutor_subject_name = ${tutorDetail.tutor_subject_name}`);
+        conn.end();
+      })
+      .then(([rows, fields]) => {
+        console.log(rows);
+        res.json(rows);
+      });
+  }
+  catch (err) {
+    console.log("ERROR");
+    res.json(err);
+  }
+});
+
+app.post("/api/insert-schedule-enroll", (req, res) => {
+  console.log(req.body)
+  try {
+    mysql.createConnection({
+      host: 'remotemysql.com',
+      port: 3306,
+      user: 'svQtxIxilZ',
+      database: 'svQtxIxilZ',
+      password: 'Z5uzX9DkGm',
+    })
+      .then(conn => {
+        conn.query(`insert into tution_schedule_enrollment (schedule_id, student_user_id, enroll_date) VALUES (?,?,?)`,
+          [req.body.schedule_id, req.body.student_user_id, req.body.enroll_date],
+          (error, results) => {
+            if (error)
+              return res.json({ error: error });
+            else
+              return true;
+          });
+        conn.end();
+      });
   }
   catch (err) {
     console.log("ERROR");
