@@ -52,7 +52,7 @@
                         <select class="form-control" [disabled]=hideSubjects
                             (change)="selectSubject($event, selectedGrade)">
                             <option>Choose Subjects</option>
-                            <option *ngFor="let subject of subjectList">{{subject.name}}</option>
+                            <option *ngFor="let subject of subjectList">{{subject.grade}} - {{subject.subject}}</option>
                         </select>
                     </div>
                     <div class="row" *ngIf="!hideSubjects">
