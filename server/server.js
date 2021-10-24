@@ -40,8 +40,9 @@ app.post('/api/authenticate', (req, res) => {
       password: 'Z5uzX9DkGm',
     })
       .then(conn => {
-        conn.query(`select * from user where phone = ${user.phone} and password = ${user.password}`);
+        let result = conn.query(`select * from user where phone = ${user.phone} and password = ${user.password}`);
         conn.end();
+        return result;
       })
       .then(([rows, fields]) => {
         console.log(rows);
@@ -83,8 +84,9 @@ app.get('/api/get-grade', (req, res) => {
       password: 'Z5uzX9DkGm',
     })
       .then(conn => {
-        conn.query('select * from grade');
-     //   //conn.end();
+        let result = conn.query('select * from grade');
+        conn.end();
+        return result;
       })
       .then(([rows, fields]) => {
         console.log(rows);
@@ -107,8 +109,9 @@ app.get('/api/get-role', (req, res) => {
       password: 'Z5uzX9DkGm',
     })
       .then(conn => {
-        conn.query('select * from role');
+        let result = conn.query('select * from role');
         conn.end();
+        return result;
       })
       .then(([rows, fields]) => {
         console.log(rows);
@@ -131,8 +134,9 @@ app.get('/api/get-subject', (req, res) => {
       password: 'Z5uzX9DkGm',
     })
       .then(conn => {
-        conn.query('select * from subject');
+        let result = conn.query('select * from subject');
         conn.end();
+        return result;
       })
       .then(([rows, fields]) => {
         console.log(rows);
@@ -156,11 +160,12 @@ app.get('/api/get-tutor', (req, res) => {
       password: 'Z5uzX9DkGm',
     })
       .then(conn => {
-        conn.query(`select u.phone, u.first_name, u.last_name, ugs.grade,ugs.subject_name
+        let result = conn.query(`select u.phone, u.first_name, u.last_name, ugs.grade,ugs.subject_name
         from user u, user_grade_subject ugs
-           where  u.id = ugs.id and u.role_id= 2 and ugs.grade =${tutorDetail.grade} and ugs.subject_name =${tutorDetail.subject_name} and
+           where  u.user_id = ugs.user_id and u.role_id= 3 and ugs.grade =${tutorDetail.grade} and ugs.subject_name =${tutorDetail.subject_name} and
                   u.city = ${tutorDetail.city}`);
         conn.end();
+        return result;
       })
       .then(([rows, fields]) => {
         console.log(rows);
@@ -205,7 +210,7 @@ app.post("/api/insert-user-detail", (req, res) => {
   console.log(req.body);
   let userSubject = req.body.gradeSubjects;
   try {
-    let userInsert = mysql.createConnection({
+    mysql.createConnection({
       host: 'remotemysql.com',
       port: 3306,
       user: 'svQtxIxilZ',
@@ -225,8 +230,30 @@ app.post("/api/insert-user-detail", (req, res) => {
         conn.end();
       });
 
-    if (userInsert == true) {
-      let userid = mysql.createConnection({
+    let userid = req.body.phoneNumber;
+    // mysql.createConnection({
+    //   host: 'remotemysql.com',
+    //   port: 3306,
+    //   user: 'svQtxIxilZ',
+    //   database: 'svQtxIxilZ',
+    //   password: 'Z5uzX9DkGm',
+    // })
+    //   .then(conn => {
+    //     let result = conn.query(`select user_id from user where phone = ${req.body.phoneNumber}`);
+    //     conn.end();
+    //     return result;
+    //   })
+    //   .then(([rows, fields]) => {
+    //     console.log(rows);
+    //     userid = rows;
+    //     res.json(rows);
+    //   });
+
+    let currDate = new Date();
+
+    userSubject.map(insertUserGradeSubject);
+    function insertUserGradeSubject(item) {
+      return mysql.createConnection({
         host: 'remotemysql.com',
         port: 3306,
         user: 'svQtxIxilZ',
@@ -234,35 +261,16 @@ app.post("/api/insert-user-detail", (req, res) => {
         password: 'Z5uzX9DkGm',
       })
         .then(conn => {
-          conn.query(`select userid from user where phone = ${req.body.phone}`);
+          conn.query(`insert into user_grade_subject (user_id, grade,subject_name,enroll_date) VALUES (?,?,?,?)`,
+            [userid, item.grade, item.subject_name, currDate],
+            (error, results) => {
+              if (error)
+                return res.json({ error: error });
+              else
+                return true;
+            });
           conn.end();
-        })
-        .then(([rows, fields]) => {
-          console.log(rows);
-          res.json(rows);
         });
-
-      userSubject.map(insertUserGradeSubject);
-      function insertUserGradeSubject(item) {
-        return mysql.createConnection({
-          host: 'remotemysql.com',
-          port: 3306,
-          user: 'svQtxIxilZ',
-          database: 'svQtxIxilZ',
-          password: 'Z5uzX9DkGm',
-        })
-          .then(conn => {
-            conn.query(`insert into user_grade_subjects (user_id, grade,subject_name,enroll_date) VALUES (?,?,?,?)`,
-              [userid, item.grade, item.subject_name, item.enroll_date],
-              (error, results) => {
-                if (error)
-                  return res.json({ error: error });
-                else
-                  return true;
-              });
-            conn.end();
-          });
-      }
     }
     return true;
   }
@@ -283,11 +291,12 @@ app.get('/api/get-schedules', (req, res) => {
       password: 'Z5uzX9DkGm',
     })
       .then(conn => {
-        conn.query(`select * from tution_schedule where
+        let result = conn.query(`select * from tution_schedule where
         tutor_user_id = ${tutorDetail.tutor_user_id} and
         tutor_grade = ${tutorDetail.tutor_grade} and 
         tutor_subject_name = ${tutorDetail.tutor_subject_name}`);
         conn.end();
+        return result;
       })
       .then(([rows, fields]) => {
         console.log(rows);
