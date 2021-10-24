@@ -151,7 +151,7 @@ app.get('/api/get-subject', (req, res) => {
 
 app.get('/api/get-tutor', (req, res) => {
   try {
-    let tutorDetail = req.body;
+    let tutorDetail = req.query;
     mysql.createConnection({
       host: 'remotemysql.com',
       port: 3306,
@@ -162,8 +162,8 @@ app.get('/api/get-tutor', (req, res) => {
       .then(conn => {
         let result = conn.query(`select u.phone, u.first_name, u.last_name, ugs.grade,ugs.subject_name
         from user u, user_grade_subject ugs
-           where  u.user_id = ugs.user_id and u.role_id= 3 and ugs.grade =${tutorDetail.grade} and ugs.subject_name =${tutorDetail.subject_name} and
-                  u.city = ${tutorDetail.city}`);
+           where  u.user_id = ugs.user_id and u.role_id= 3 and ugs.grade =${tutorDetail.grade} and ugs.subject_name ='${tutorDetail.subject_name}' and
+                  u.city = '${tutorDetail.city}'`);
         conn.end();
         return result;
       })

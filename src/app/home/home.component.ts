@@ -71,22 +71,11 @@ export class HomeComponent implements OnInit {
   //subjectList: any =  [{ id: 1, name: 'matchs' }, { id: 2, name: 'science' }];
 
   dashboardFormData = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    email: [''],
-    phoneNumber: ['', Validators.required],
-    password: ['', Validators.required],
-    // address: this.fb.group({
-    addressLine1: [''],
-    addressLine2: [''],
+   
+
     city: ['', Validators.required],
-    state: [''],
-    zipcode: [''],
-    // }),
-    role: ['', Validators.required],
     grade: ['', Validators.required],
-    subject: ['', Validators.required],
-    addDynamicElement: this.fb.array([])
+    subject: ['', Validators.required]
   })
 
   get f() { return this.dashboardFormData.controls; }
@@ -129,15 +118,19 @@ export class HomeComponent implements OnInit {
   //getTutors
 
 
+  console.log("form values", this.dashboardFormData.value);
 
-
-
-  this.dashboardService.getTutors(this.f.grade.value, this.f.subject.value , this.f.city.value)
+  console.log("grade object" , this.f.grade.value);
+  const gradeId = this.f.grade.value;
+  const subjectName = this.f.subject.value;
+  this.dashboardService.getTutors(gradeId.grade, subjectName.name , this.f.city.value)
   .pipe(first())
   .subscribe(
       data => {
-          console.log("daat", this.returnUrl);
-          this.router.navigate([this.returnUrl]);
+        debugger;
+        this.searchResults = data;
+         // console.log("search", this.returnUrl);
+       //   this.router.navigate([this.returnUrl]);
           this.loading = false;
       },
       error => {
@@ -145,44 +138,44 @@ export class HomeComponent implements OnInit {
           this.loading = false;
       });
 
-  let apiResponse = [{
-    "phone":"1234567890",
-    "first_name":"Manoj",
-    "last_name":"Mehra",
-    "grade":"5th Grade",
-    "subject_name":"Chemistry"
-    },
-    {
-      "phone":"1234567891",
-      "first_name":"Sridhar",
-      "last_name":"Reddy",
-      "grade":"7th Grade",
-      "subject_name":"Chemistry"
-      },
-      {
-        "phone":"1234567892",
-        "first_name":"Shantanu",
-        "last_name":"Ganappa",
-        "grade":"9th Grade",
-        "subject_name":"Maths"
-        },
-        {
-          "phone":"1234567893",
-          "first_name":"Chomu",
-          "last_name":"Swami",
-          "grade":"3th Grade",
-          "subject_name":"Chemistry"
-          },
-          {
-            "phone":"1234567894",
-            "first_name":"Niranjan",
-            "last_name":"Das",
-            "grade":"1th Grade",
-            "subject_name":"Physics"
-            }];
+  // let apiResponse = [{
+  //   "phone":"1234567890",
+  //   "first_name":"Manoj",
+  //   "last_name":"Mehra",
+  //   "grade":"5th Grade",
+  //   "subject_name":"Chemistry"
+  //   },
+  //   {
+  //     "phone":"1234567891",
+  //     "first_name":"Sridhar",
+  //     "last_name":"Reddy",
+  //     "grade":"7th Grade",
+  //     "subject_name":"Chemistry"
+  //     },
+  //     {
+  //       "phone":"1234567892",
+  //       "first_name":"Shantanu",
+  //       "last_name":"Ganappa",
+  //       "grade":"9th Grade",
+  //       "subject_name":"Maths"
+  //       },
+  //       {
+  //         "phone":"1234567893",
+  //         "first_name":"Chomu",
+  //         "last_name":"Swami",
+  //         "grade":"3th Grade",
+  //         "subject_name":"Chemistry"
+  //         },
+  //         {
+  //           "phone":"1234567894",
+  //           "first_name":"Niranjan",
+  //           "last_name":"Das",
+  //           "grade":"1th Grade",
+  //           "subject_name":"Physics"
+  //           }];
 
     this.loading = false;
-    this.searchResults = apiResponse;
+   // this.searchResults = apiResponse;
     this.hideResults = false;
 
   /* this.dashboardService.performSearch(this.dashboardFormData.value)
