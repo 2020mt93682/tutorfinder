@@ -167,9 +167,9 @@ app.post("/api/insert-user-grade-subjects", (req, res) => {
   }
 });
 
-app.post("/insert-user-detail", (req, res) => {
+app.post("/api/insert-user-detail", (req, res) => {
   console.log(req.body);
-  let userSubject = request.body.usersubject;
+  let userSubject = req.body.gradeSubjects;
   try {
     let userInsert = mysql.createConnection({
       host: 'remotemysql.com',
@@ -189,7 +189,7 @@ app.post("/insert-user-detail", (req, res) => {
         }));
 
     if (userInsert == true) {
-      let userid = await mysql.createConnection({
+      let userid = mysql.createConnection({
         host: 'remotemysql.com',
         port: 3306,
         user: 'svQtxIxilZ',
