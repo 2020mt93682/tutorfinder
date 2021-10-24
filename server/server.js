@@ -6,6 +6,7 @@ port = 3080;
 const cors = require('cors');
 
 const mysql = require('mysql2/promise'); // or require('mysql2').createConnectionPromise
+const { request } = require('http');
 
 app.use(cors());
 
@@ -24,7 +25,7 @@ app.post('/api/user', (req, res) => {
   res.json("user login");
 });
 
-app.get('/getGrades', (req,res) => {
+app.get('/getGrades', (req, res) => {
   res.json("user login");
 });
 
@@ -42,7 +43,7 @@ app.get('/', (req, res) => {
   res.send('App Works !!!!');
 });
 
-app.get('/getGrades', (req,res) => {
+app.get('/getGrades', (req, res) => {
   res.json("user login");
 });
 
@@ -156,7 +157,7 @@ app.post("/api/insert-user-grade-subjects", (req, res) => {
         (error, results) => {
           if (error)
             return res.json({ error: error });
-            else
+          else
             return true;
         }));
   }
@@ -166,25 +167,61 @@ app.post("/api/insert-user-grade-subjects", (req, res) => {
   }
 });
 
-app.post("/api/insert-user-detail", (req, res) => {
-  console.log(req.body)
+app.post("/insert-user-detail", (req, res) => {
+  console.log(req.body);
+  let userSubject = request.body.usersubject;
   try {
-    mysql.createConnection({
+    let userInsert = mysql.createConnection({
       host: 'remotemysql.com',
       port: 3306,
       user: 'svQtxIxilZ',
       database: 'svQtxIxilZ',
       password: 'Z5uzX9DkGm',
-    })  
+    })
       .then(conn => conn.query(`insert into user (phone, password, first_name, last_name, email, address_line1, address_line2, city, state, zipcode, role_id)
       VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
         [req.body.phoneNumber, req.body.password, req.body.firstName, req.body.lastName, req.body.email, req.body.addressLine1, req.body.addressLine2, req.body.city, req.body.state, req.body.zipcode, req.body.role],
         (error, results) => {
           if (error)
             return res.json({ error: error });
-            else
+          else
             return true;
         }));
+
+    if (userInsert == true) {
+      let userid = await mysql.createConnection({
+        host: 'remotemysql.com',
+        port: 3306,
+        user: 'svQtxIxilZ',
+        database: 'svQtxIxilZ',
+        password: 'Z5uzX9DkGm',
+      })
+        .then(conn => conn.query(`select userid from user where phone = ${req.body.phone}`))
+        .then(([rows, fields]) => {
+          console.log(rows);
+          res.json(rows);
+        });
+
+      userSubject.map(insertUserGradeSubject);
+      function insertUserGradeSubject(item) {
+        return mysql.createConnection({
+          host: 'remotemysql.com',
+          port: 3306,
+          user: 'svQtxIxilZ',
+          database: 'svQtxIxilZ',
+          password: 'Z5uzX9DkGm',
+        })
+          .then(conn => conn.query(`insert into user_grade_subjects (user_id, grade,subject_name,enroll_date) VALUES (?,?,?,?)`,
+            [user_id, item.grade, item.subject_name, item.enroll_date],
+            (error, results) => {
+              if (error)
+                return res.json({ error: error });
+              else
+                return true;
+            }));
+      }
+    }
+    return true;
   }
   catch (err) {
     console.log("ERROR");
