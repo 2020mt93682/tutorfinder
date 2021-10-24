@@ -31,7 +31,7 @@ app.get('/getGrades', (req, res) => {
 
 app.post('/api/authenticate', (req, res) => {
   try {
-    let user = req.body.user;
+    let user = req.body;
     mysql.createConnection({
       host: 'remotemysql.com',
       port: 3306,
@@ -41,6 +41,9 @@ app.post('/api/authenticate', (req, res) => {
     })
       .then(conn => {
         conn.query(`select * from user where phone = ${user.phone} and password = ${user.password}`);
+        const q = `select * from user where phone = ${user.phone} and password = ${user.password} `;
+
+        console.log("query" , q);
         conn.end();
       })
       .then(([rows, fields]) => {

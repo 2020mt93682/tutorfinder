@@ -23,6 +23,7 @@ export class AuthenticationService {
 
     login(password: string, phone: string) {
         const body = { password: password, phone: phone };
+        console.log("payload", body);
         return this.http.post<any>(`${environment.apiUrl}/api/authenticate`, body)
             .pipe(map(user => {
                 console.log("user service", user);
