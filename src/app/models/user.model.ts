@@ -13,10 +13,16 @@ export interface userInfo {
       lname: string,
       phone: string,
       email: string,
-      addressLine1: string
-      addressLine2: string
-      role: string
-      city: string
-      state: string
-      zipcode: string
+      addressLine1: string,
+      addressLine2: string,
+      role: string,
+      city: string,
+      state: string,
+      zipcode: string,
+      gradeSubjects: gradeSubject
 }
+
+export interface gradeSubject{
+    grade: string,
+    subject: string
+} 

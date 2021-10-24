@@ -46,7 +46,36 @@ export class RegistrationComponent implements OnInit {
         error => {
             this.error = error;
         });
+
+        this.registrationService.getAllSubjects()
+        .pipe(first())
+        .subscribe(
+            data => {
+              this.subjectList = data;
+                console.log("get sub", data);
+    
+            },
+            error => {
+                this.error = error;
+            });
+
+
+            
+        this.registrationService.getAllRoles()
+        .pipe(first())
+        .subscribe(
+            data => {
+              this.roleList = data;
+                console.log("get sub", data);
+    
+            },
+            error => {
+                this.error = error;
+            });
   }
+
+
+  
 
   roleList: any = [{ id: 1, name: 'student' }, { id: 2, name: 'facilitator' }];
   gradeList: any = [{ id: 1, name: 'grade1' }, { id: 2, name: 'grade2' } , { id: 3, name: 'grade3' }];
@@ -90,11 +119,20 @@ export class RegistrationComponent implements OnInit {
    //event handler for the select element's change event
    selectSubject(event: any, grade: string) {
     //update the ui
-    this.selectedGrade = event.target.value + '-' + grade;
-    this.gradeSubjectList.push(this.selectedGrade);
+   // this.selectedGrade = event.target.value + '-' + grade;
+    const gradSubJson = {
+        "grade" : this.selectedGrade,
+        "subject" : event.target.value
+    }
+   
+
+    this.gradeSubjectList.push(gradSubJson);
 
     this.hideSubjects = false;
   }
+
+  ///insert-user-grade-subjects
+
 
   // Submit Registration Form
   onSubmit(){
