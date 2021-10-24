@@ -212,7 +212,7 @@ app.post("/insert-user-detail", (req, res) => {
           password: 'Z5uzX9DkGm',
         })
           .then(conn => conn.query(`insert into user_grade_subjects (user_id, grade,subject_name,enroll_date) VALUES (?,?,?,?)`,
-            [user_id, item.grade, item.subject_name, item.enroll_date],
+            [userid, item.grade, item.subject_name, item.enroll_date],
             (error, results) => {
               if (error)
                 return res.json({ error: error });
