@@ -91,11 +91,19 @@ export class RegistrationComponent implements OnInit {
   selectSubject(event: any, grade: string) {
     //update the ui
     // this.selectedGrade = event.target.value + '-' + grade;
+    //name
+
+    debugger;
     const gradeObject = this.gradeList.find((element: { description: string; }) => element.description === this.selectedGrade);
+    const subObject = this.subjectList.find((element: { description: string; }) => element.description == event.target.value);
+    
+
+
     const gradSubJson = {
       "gradeId":  gradeObject ? gradeObject.grade : 0,
       "grade": this.selectedGrade,
-      "subject": event.target.value
+      "subject": event.target.value,
+      "subjectName": subObject ? subObject.name : ""
     }
 
 

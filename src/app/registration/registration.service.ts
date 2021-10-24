@@ -64,9 +64,11 @@ export class RegistrationService {
     let userPayload: userInfo;
     let gradeSubject : gradeSubject[] = [];
 
-    userInfo.gradeSubjects.forEach((element: { gradeId: any; subject: any; }) => {
-      gradeSubject.push( {grade : element.gradeId , subject: element.subject})
+    userInfo.gradeSubjects.forEach((element: { gradeId: any; subjectName: any; }) => {
+      gradeSubject.push( {grade : element.gradeId , subject: element.subjectName})
     });
+
+    console.log("gradeSubject",  gradeSubject);
     console.log("request mapp", userInfo);
     userPayload = {
       firstName: userInfo.firstName,
