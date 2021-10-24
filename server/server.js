@@ -175,9 +175,9 @@ app.post("/insert-user-detail", (req, res) => {
       user: 'svQtxIxilZ',
       database: 'svQtxIxilZ',
       password: 'Z5uzX9DkGm',
-    })
-      .then(conn => conn.query(`insert into user (userid, phone, password, first_name, last_name, email, address_line1, address_line2, city, state, zipcode, role_id)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
+    })  
+      .then(conn => conn.query(`insert into user (phone, password, first_name, last_name, email, address_line1, address_line2, city, state, zipcode, role_id)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
         [req.body.userid, req.body.phone, req.body.password, req.body.first_name, req.body.last_name, req.body.email, req.body.address_line1, req.body.address_line2, req.body.city, req.body.state, req.body.zipcode, req.body.role_id],
         (error, results) => {
           if (error)
