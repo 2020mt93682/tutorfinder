@@ -67,7 +67,10 @@ app.get('/api/get-grade', (req, res) => {
       database: 'svQtxIxilZ',
       password: 'Z5uzX9DkGm',
     })
-      .then(conn => conn.query('select * from grade'))
+      .then(conn => {
+        conn.query('select * from grade');
+        conn.end();
+      })
       .then(([rows, fields]) => {
         console.log(rows);
         res.json(rows);
@@ -88,7 +91,10 @@ app.get('/api/get-role', (req, res) => {
       database: 'svQtxIxilZ',
       password: 'Z5uzX9DkGm',
     })
-      .then(conn => conn.query('select * from role'))
+      .then(conn => {
+        conn.query('select * from role');
+        conn.end();
+      })
       .then(([rows, fields]) => {
         console.log(rows);
         res.json(rows);
@@ -109,7 +115,10 @@ app.get('/api/get-subject', (req, res) => {
       database: 'svQtxIxilZ',
       password: 'Z5uzX9DkGm',
     })
-      .then(conn => conn.query('select * from subject'))
+      .then(conn => {
+        conn.query('select * from subject');
+        conn.end();
+      })
       .then(([rows, fields]) => {
         console.log(rows);
         res.json(rows);
@@ -130,7 +139,10 @@ app.get('/api/get-tutor', (req, res) => {
       database: 'svQtxIxilZ',
       password: 'Z5uzX9DkGm',
     })
-      .then(conn => conn.query(`select role_id from role where name = 'tutor'`))
+      .then(conn => {
+        conn.query(`select role_id from role where name = 'tutor'`);
+        conn.end();
+      })
       .then(([rows, fields]) => {
         console.log(rows);
         res.json(rows);
@@ -152,14 +164,17 @@ app.post("/api/insert-user-grade-subjects", (req, res) => {
       database: 'svQtxIxilZ',
       password: 'Z5uzX9DkGm',
     })
-      .then(conn => conn.query(`insert into user_grade_subjects (user_id, grade,subject_name,enroll_date) VALUES (?,?,?)`,
-        [req.body.user_id, req.body.grade, req.body.enroll_date],
-        (error, results) => {
-          if (error)
-            return res.json({ error: error });
-          else
-            return true;
-        }));
+      .then(conn => {
+        conn.query(`insert into user_grade_subjects (user_id, grade,subject_name,enroll_date) VALUES (?,?,?)`,
+          [req.body.user_id, req.body.grade, req.body.enroll_date],
+          (error, results) => {
+            if (error)
+              return res.json({ error: error });
+            else
+              return true;
+          });
+        conn.end();
+      });
   }
   catch (err) {
     console.log("ERROR");
@@ -178,15 +193,18 @@ app.post("/api/insert-user-detail", (req, res) => {
       database: 'svQtxIxilZ',
       password: 'Z5uzX9DkGm',
     })
-      .then(conn => conn.query(`insert into user (phone, password, first_name, last_name, email, address_line1, address_line2, city, state, zipcode, role_id)
+      .then(conn => {
+        conn.query(`insert into user (phone, password, first_name, last_name, email, address_line1, address_line2, city, state, zipcode, role_id)
       VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
-        [req.body.phoneNumber, req.body.password, req.body.firstName, req.body.lastName, req.body.email, req.body.addressLine1, req.body.addressLine2, req.body.city, req.body.state, req.body.zipcode, req.body.role],
-        (error, results) => {
-          if (error)
-            return res.json({ error: error });
-          else
-            return true;
-        }));
+          [req.body.phoneNumber, req.body.password, req.body.firstName, req.body.lastName, req.body.email, req.body.addressLine1, req.body.addressLine2, req.body.city, req.body.state, req.body.zipcode, req.body.role],
+          (error, results) => {
+            if (error)
+              return res.json({ error: error });
+            else
+              return true;
+          });
+        conn.end();
+      });
 
     if (userInsert == true) {
       let userid = mysql.createConnection({
@@ -196,7 +214,10 @@ app.post("/api/insert-user-detail", (req, res) => {
         database: 'svQtxIxilZ',
         password: 'Z5uzX9DkGm',
       })
-        .then(conn => conn.query(`select userid from user where phone = ${req.body.phone}`))
+        .then(conn => {
+          conn.query(`select userid from user where phone = ${req.body.phone}`);
+          conn.end();
+        })
         .then(([rows, fields]) => {
           console.log(rows);
           res.json(rows);
@@ -211,14 +232,17 @@ app.post("/api/insert-user-detail", (req, res) => {
           database: 'svQtxIxilZ',
           password: 'Z5uzX9DkGm',
         })
-          .then(conn => conn.query(`insert into user_grade_subjects (user_id, grade,subject_name,enroll_date) VALUES (?,?,?,?)`,
-            [userid, item.grade, item.subject_name, item.enroll_date],
-            (error, results) => {
-              if (error)
-                return res.json({ error: error });
-              else
-                return true;
-            }));
+          .then(conn => {
+            conn.query(`insert into user_grade_subjects (user_id, grade,subject_name,enroll_date) VALUES (?,?,?,?)`,
+              [userid, item.grade, item.subject_name, item.enroll_date],
+              (error, results) => {
+                if (error)
+                  return res.json({ error: error });
+                else
+                  return true;
+              });
+            conn.end();
+          });
       }
     }
     return true;
