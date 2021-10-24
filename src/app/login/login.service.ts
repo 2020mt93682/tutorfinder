@@ -23,7 +23,7 @@ export class AuthenticationService {
 
     login(password: string, phone: string) {
         const body = { password: password, phone: phone };
-        return this.http.post<any>(`${environment.apiUrl}/api/user`, body)
+        return this.http.post<any>(`${environment.apiUrl}/api/authenticate`, body)
             .pipe(map(user => {
                 console.log("user service", user);
                 // store user details and basic auth credentials in local storage to keep user logged in between page refreshes

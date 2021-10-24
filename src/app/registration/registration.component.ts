@@ -60,7 +60,7 @@ export class RegistrationComponent implements OnInit {
     lastName: ['', Validators.required],
     email: [''],
     phoneNumber: ['', Validators.required],
-    password: ['', Validators.required],
+    password: ['', Validators.required, Validators.maxLength(10)],
     // address: this.fb.group({
     addressLine1: [''],
     addressLine2: [''],

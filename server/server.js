@@ -84,7 +84,7 @@ app.get('/api/get-grade', (req, res) => {
     })
       .then(conn => {
         conn.query('select * from grade');
-        conn.end();
+     //   //conn.end();
       })
       .then(([rows, fields]) => {
         console.log(rows);
