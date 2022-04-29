@@ -46,7 +46,6 @@ export class HomeComponent implements OnInit {
     .subscribe(
         data => {
           this.gradeList = data;
-            console.log("get grades", data);
 
         },
         error => {
@@ -117,10 +116,6 @@ export class HomeComponent implements OnInit {
 
   //getTutors
 
-
-  console.log("form values", this.dashboardFormData.value);
-
-  console.log("grade object" , this.f.grade.value);
   const gradeId = this.f.grade.value;
   const subjectName = this.f.subject.value;
   this.dashboardService.getTutors(gradeId.grade, subjectName.name , this.f.city.value)

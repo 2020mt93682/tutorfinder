@@ -43,9 +43,7 @@ getSubjects() {
 
 ///api/get-tutor
 getTutors(grade: any, subject: any, city: any){
- 
-  console.log("search" ,grade );
-  console.log("search" ,subject );
+
   return this.http.get<any>(`${environment.apiUrl}/api/get-tutor?city=${city}&grade=${grade}&subject_name=${subject}`)
   .pipe(map(items => {
      
